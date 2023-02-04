@@ -3,12 +3,13 @@ import {Event} from '../types';
  * Comparator for Events where the earliest completion date is first
  */
 const compEvents = (a: Event, b: Event) =>  a.to.getTime() - b.to.getTime();
+
 export function schedule(events: Event[]): Event[] {
   if (events.length <= 0) {
     return [];
   }
 
-  // Sort events by their end date;
+  // Sort events by their end date
   const sortedEvents = events.sort(compEvents);
 
   // Prepare result array
