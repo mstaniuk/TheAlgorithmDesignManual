@@ -24,8 +24,9 @@ export function schedule(events: Event[]): Event[] {
   for(let i = 1; i < sortedEvents.length; i++) {
     const currentEvent = sortedEvents[i];
 
-    // If current event intersects with the latest event
-    // skip it
+    // If current event intersects with the latest event skip it
+    // Determine overlap by comparing end date of last result with start date of current event,
+    // as the list is sorted.
     if(lastEndDate >= currentEvent.from) {
       continue;
     }

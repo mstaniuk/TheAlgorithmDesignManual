@@ -3,72 +3,35 @@ import {Event} from '../types';
 import {schedule} from './index';
 
 describe('OptimalScheduling', () => {
-  test('schedules events in correct order', () => {
-    const events: Event[] = [
-      {
-        label: 'Event#2',
-        from: new Date('03-02-2022'),
-        to: new Date('04-01-2022'),
-      },
-      {
-        label: 'Event#1',
-        from: new Date('02-01-2022'),
-        to: new Date('03-01-2022'),
-      }
-    ];
+  test('returns an empty array when given an empty events array', () => {
+    const events: Event[] = [];
+    const expectResult: Event[] = [];
 
-    const expectedOutputEvents: Event[] = [
-      {
-        label: 'Event#1',
-        from: new Date('02-01-2022'),
-        to: new Date('03-01-2022'),
-      },
-      {
-        label: 'Event#2',
-        from: new Date('03-02-2022'),
-        to: new Date('04-01-2022'),
-      }
-    ];
+    const result: Event[] = schedule(events);
 
-    const result = schedule(events);
-
-    expect(result).toEqual(expectedOutputEvents);
+    expect(result).toEqual(expectResult);
   });
 
-  test('skips overlapping events', () => {
-    const events: Event[] = [
-      {
-        label: 'Event#1',
-        from: new Date('02-01-2022'),
-        to: new Date('03-01-2022'),
-      },
-      {
-        label: 'Event#2',
-        from: new Date('02-24-2022'),
-        to: new Date('03-02-2022'),
-      },
-      {
-        label: 'Event#3',
-        from: new Date('03-03-2022'),
-        to: new Date('04-01-2022'),
-      }
-    ];
+  test('returns the original array when there is only one event', () => {
+    const event: Event = { from: new Date(2022, 10, 10), to: new Date(2022, 10, 13) };
+    const events: Event[] = [event];
+    const expectResult: Event[] = [event];
 
-    const expectedOutputEvents: Event[] = [
-      {
-        label: 'Event#1',
-        from: new Date('02-01-2022'),
-        to: new Date('03-01-2022'),
-      },
-      {
-        label: 'Event#3',
-        from: new Date('03-03-2022'),
-        to: new Date('04-01-2022'),
-      }
-    ];
+    const result: Event[] = schedule(events);
 
-    const result = schedule(events);
-
-    expect(result).toEqual(expectedOutputEvents);
+    expect(result).toEqual(expectResult);
   });
-})
+
+  test('returns the events in order of earliest ending date first', () => {
+    const eventA: Event = { from: new Date(2022, 10, 10), to: new Date(2022, 10, 13) };
+    const eventB: Event = { from: new Date(2022, 10, 8), to: new Date(2022, 10, 15) };
+    const eventC: Event = { from: new Date(2022, 10, 17), to: new Date(2022, 10, 20) };
+
+    const events: Event[] = [eventB, eventC, eventA];
+    const expectedResult: Event[] = [eventA, eventC];
+
+    const result: Event[] = schedule(events);
+
+    expect(result).toEqual(expectedResult);
+  });
+});
