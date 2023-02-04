@@ -2,8 +2,12 @@ import {Event} from '../types';
 /**
  * Comparator for Events where the earliest completion date is first
  */
-const compEvents = (a: Event, b: Event) =>  a.to.getTime() - b.to.getTime();
+const compEvents = (a: Event, b: Event) =>  Number(a.to) - Number(b.to);
 
+/**
+ * Generates an Events schedules favouring the Events ending first
+ * Optimal scheduler
+ */
 export function schedule(events: Event[]): Event[] {
   if (events.length <= 0) {
     return [];

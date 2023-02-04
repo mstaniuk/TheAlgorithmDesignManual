@@ -2,11 +2,13 @@ import {Event} from '../types';
 
 
 /**
- * Check if events are overlaping
+ * Check if events are overlapping
  */
-const areEventsOverlap = (a: Event, b: Event) => (Number(a.from) < Number(b.from) && Number(b.from) < Number(a.to)) ||
-    (Number(a.from) < Number(b.to)   && Number(b.to)   < Number(a.to)) ||
-    (Number(b.from) <  Number(a.from) && Number(a.to)   <  Number(b.to));
+const areEventsOverlap = (a: Event, b: Event) =>
+  (a.from < b.from && b.from < a.to) ||
+  (a.from < b.to   && b.to   < a.to) ||
+  (b.from <  a.from && a.to   <  b.to);
+
 /**
  * Comparator for Events where the shortest completion date is first
  */
@@ -15,7 +17,7 @@ const compEvents = (a: Event, b: Event) => getEventLength(a.from, b.to) - getEve
 /**
  * Calculate event length
  */
-const getEventLength = (start: Date, end: Date) => start.getTime() - end.getTime()
+const getEventLength = (start: Date, end: Date) => Number(start) - Number(end);
 
 /**
  * Generates an Events schedules favouring the shortest event
