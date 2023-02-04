@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import {Event, schedule} from './index';
+import {Event} from '../types';
+import {schedule} from './index';
 
 describe('OptimalScheduling', () => {
   test('schedules events in correct order', () => {

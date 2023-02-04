@@ -1,8 +1,4 @@
-export interface Event extends Record<string, unknown>{
-  from: Date,
-  to: Date,
-}
-
+import {Event} from '../types';
 /**
  * Comparator for Events where the earliest completion date is first
  */
