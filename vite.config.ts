@@ -7,8 +7,12 @@ const getChapters = () => {
   const chapters: Record<string, string> = {};
 
   fs.readdirSync( rootPath ).forEach( file => {
+    const fullPath = resolve( rootPath, file, 'index.html' );
     const filename = basename( file );
-    chapters[filename] = resolve( rootPath, file, 'index.html' );
+
+    if(fs.existsSync(fullPath)) {
+      chapters[filename] = resolve( rootPath, file, 'index.html' );
+    }
   });
 
   return chapters;
